@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>اخبار</title>
+    <style>
+        body { font-family: sans-serif; direction: rtl; margin: 2rem; }
+        .news-box { border: 1px solid #ccc; padding: 1rem; margin-bottom: 1rem; }
+        .notification { background: yellow; padding: 1rem; margin-bottom: 1rem; display: none; }
+    </style>
+</head>
+<body>
+    <h1>📰 لیست اخبار</h1>
+    <div id="notification" class="notification">📢 خبر جدید اضافه شد!</div>
+    <% news.forEach(n => { %>
+        <div class="news-box">
+            <h3><%= n.title %></h3>
+            <p><%= n.content %></p>
+        </div>
+    <% }); %>
+    <script>
+        setInterval(() => {
+            fetch('/news.json')
+                .then(res => res.json())
+                .then(latest => {
+                    if (latest.length > <%= news.length %>) {
+                        document.getElementById('notification').style.display = 'block';
+                    }
+                });
+        }, 5000);
+    </script>
+</body>
+</html>
